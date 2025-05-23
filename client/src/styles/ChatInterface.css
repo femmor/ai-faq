@@ -1,0 +1,80 @@
+.chat-interface {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-interface-header {
+    background-color: #3b82f6;
+    color: #ffffff;
+    padding: 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.chat-interface-header-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 16px;
+}
+
+.chat-interface-header-icon {
+    width: 24px;
+    height: 24px;
+    color: #3b82f6;
+}
+
+.chat-interface-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.chat-interface-subtitle {
+    font-size: 0.875rem;
+    color: #bfdbfe;
+    margin-left: 8px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.chat-interface-suggested-questions-container {
+    padding: 0 16px;
+    margin-bottom: 16px;
+}
+
+.chat-interface-suggested-questions {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.chat-interface-input-container {
+    border-top: 1px solid #e5e7eb;
+    padding: 16px;
+}
+
+.chat-interface-info-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
