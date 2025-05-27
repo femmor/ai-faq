@@ -27,8 +27,4 @@ export const sampleFAQs = [
         question: "What payment methods do you accept?",
         answer: "We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and Apple Pay.",
     },
-    {
-        question: "How do I update my account information?",
-        answer: "Log in to your account and go to 'Account Settings' to update your personal information, email, or password.",
-    }
 ];

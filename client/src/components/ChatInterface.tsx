@@ -7,14 +7,10 @@ import type { Message } from "../types/Message";
 import TypingIndicator from "./TypingIndicator";
 import SuggestedQuestions from "./SuggestedQuestions";
 import ChatInput from "./ChatInput";
+import { getFAQAnswer } from "../api/getFAQAnswer";
+import { sampleFAQs } from "../utils/sampleFaqs";
 
-// Sample FAQ data
-const faqData = {
-    'What are your business hours?': "We're open Monday through Friday from 9 AM to 6 PM, and Saturdays from 10 AM to 4 PM. We're closed on Sundays and major holidays.",
-    'Do you offer refunds?': "Yes, we offer full refunds within 30 days of purchase if you're not completely satisfied with your product.",
-    'How can I track my order?': "You can track your order by logging into your account and visiting the 'Order History' section, or by using the tracking number provided in your shipping confirmation email.",
-    'What payment methods do you accept?': 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and Apple Pay.'
-};
+const sampleQuestions = sampleFAQs.slice(3).map(faq => faq.question);
 
 const ChatInterface = () => {
     const [messages, setMessages] = useState<Message[]>([{
@@ -45,33 +41,28 @@ const ChatInterface = () => {
         // Simulate AI thinking
         setIsTyping(true);
 
-        // Find answer in FAQ data or provide default response
-        setTimeout(() => {
-            setIsTyping(false);
-            let answer = faqData[message as keyof typeof faqData];
-            if (!answer) {
-                // Check for partial matches
-                const lowerCaseMessage = message.toLowerCase();
-                for (const [question, response] of Object.entries(faqData)) {
-                    if (question.toLowerCase().includes(lowerCaseMessage) || lowerCaseMessage.includes(question.toLowerCase())) {
-                        answer = response;
-                        break;
-                    }
-                }
-
-                // If still no match, provide default response
-                if (!answer) {
-                    answer = "I don't have information on that specific question. Can I help you with something else from our FAQ?";
-                }
-            }
-            const aiMessage: Message = {
-                id: messages.length + 2,
-                content: answer,
-                sender: "ai",
-                timestamp: new Date()
-            };
-            setMessages(prev => [...prev, aiMessage]);
-        }, 1500);
+        getFAQAnswer(message)
+            .then((data) => {
+                const aiMessage: Message = {
+                    id: messages.length + 2,
+                    content: data.answer,
+                    sender: "ai",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, aiMessage]);
+            })
+            .catch(() => {
+                const fallback: Message = {
+                    id: messages.length + 2,
+                    content: "Sorry, I couldn't retrieve an answer right now. Please try again later.",
+                    sender: "ai",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, fallback]);
+            })
+            .finally(() => {
+                setIsTyping(false);
+            });
     }
 
     // Function to handle clicking a suggested question
@@ -117,7 +108,7 @@ const ChatInterface = () => {
                             <InfoIcon className="chat-interface-info-icon" />
                             <span>Here are some questions you can ask:</span>
                         </div>
-                        <SuggestedQuestions questions={Object.keys(faqData)} onQuestionClick={handleQuestionClick} />
+                        <SuggestedQuestions questions={sampleQuestions} onQuestionClick={handleQuestionClick} />
                     </div>
                 }
 
