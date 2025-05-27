@@ -11,7 +11,8 @@ interface ChatInputProps {
 const ChatInput = ({
     value,
     onChange,
-    onSend, disabled
+    onSend,
+    disabled
 }: ChatInputProps) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
