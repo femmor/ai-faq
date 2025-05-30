@@ -17,6 +17,9 @@ const useLogin = () => {
         onSuccess: (data) => {
             login(data.token);
         },
+        onError: (error) => {
+            console.error("Login error:", error);
+        }
     });
 };
 

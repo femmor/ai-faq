@@ -1,36 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const { login } = useAuth();
-    const navigate = useNavigate();
-
-    const handleLogin = async () => {
-        try {
-            const response = await fetch("http://localhost:5000/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!response.ok) throw new Error("Invalid credentials");
-
-            const { token } = await response.json();
-            login(token);
-            navigate("/admin");
-        } catch (err) {
-            setError((err as Error).message);
-        }
-    };
+    const loginMutation = useLogin();
 
     return (
         <div className="login-container">
             <h1>Login</h1>
-            {error && <p className="error">{error}</p>}
             <input
                 type="email"
                 placeholder="Email"
@@ -43,7 +21,11 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleLogin}>Login</button>
+            <button onClick={() => loginMutation.mutate({ email, password })}>
+                {loginMutation.isPending ? "Logging in..." : "Login"}
+            </button>
+
+            {loginMutation.isError && <p className="error">Login failed</p>}
         </div>
     );
 };
