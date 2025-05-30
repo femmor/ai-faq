@@ -1,7 +1,21 @@
 import express from 'express';
-import { searchFAQ } from '../controllers/faqController.ts';
+import { createFAQ, searchFAQ } from '../controllers/faqController.ts';
 import { Request, Response, NextFunction } from 'express';
+import { authenticate, authorize } from '../middleware/auth.ts';
 const router = express.Router();
+
+router.post(
+    '/',
+    authenticate,
+    authorize(['admin']),
+    async (req, res, next) => {
+        try {
+            await createFAQ(req, res);
+        } catch (err) {
+            next(err);
+        }
+    }
+);
 
 router.post('/search', (req: Request, res: Response, next: NextFunction) => {
     searchFAQ(req, res).catch(next);

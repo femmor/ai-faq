@@ -6,6 +6,21 @@ import OpenAI from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+export const createFAQ = async (req: Request, res: Response) => {
+    const { question, answer } = req.body;
+    if (!question || !answer) return res.status(400).json({ error: 'Question and answer required' });
+
+    try {
+        const embedding = await generateEmbedding(question);
+        const newFAQ = new FAQ({ question, answer, embedding });
+        await newFAQ.save();
+        res.status(201).json(newFAQ);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to create FAQ' });
+    }
+};
+
 export const searchFAQ = async (req: Request, res: Response) => {
     const { question } = req.body;
     if (!question) return res.status(400).json({ error: 'Question required' });

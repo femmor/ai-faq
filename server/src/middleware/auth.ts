@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-const authenticate = (req: Request & { user?: any }, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(' ')[1];
+const authenticate = (req: Request & { user?: any }, res: Response, next: NextFunction): void => {
+    const token = req.headers.authorization?.split(' ')[1] as string;
 
     if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
+        res.status(401).json({ message: 'No token provided' });
     }
 
     try {
@@ -13,11 +13,11 @@ const authenticate = (req: Request & { user?: any }, res: Response, next: NextFu
         req.user = decoded;
         next();
     } catch (error) {
-        return res.status(403).json({ message: 'Invalid token' });
+        res.status(403).json({ message: 'Invalid token' });
     }
 }
 
-const authorize = (roles: string[]) => {
+const authorize = (roles: string[]): any => {
     return (req: Request & { user?: any }, res: Response, next: NextFunction) => {
         if (!req.user || !roles.includes(req.user?.role)) {
             return res.status(403).json({ message: 'Forbidden' });
@@ -25,3 +25,5 @@ const authorize = (roles: string[]) => {
         next();
     };
 }
+
+export { authenticate, authorize };
