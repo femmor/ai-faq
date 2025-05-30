@@ -10,6 +10,7 @@
     "backend": "nodemon",
     "frontend": "npm run dev --prefix ../client",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "prod": "node dist/index.js",
     "seed": "node --loader ts-node/esm src/config/seed.ts"
   },
   "keywords": [],
