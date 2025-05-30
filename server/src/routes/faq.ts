@@ -1,7 +1,7 @@
 import express from 'express';
-import { createFAQ, searchFAQ } from '../controllers/faqController.ts';
+import { createFAQ, searchFAQ } from '../controllers/faqController.js';
 import { Request, Response, NextFunction } from 'express';
-import { authenticate, authorize } from '../middleware/auth.ts';
+import { authenticate, authorize } from '../middleware/auth.js';
 const router = express.Router();
 
 router.post(

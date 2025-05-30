@@ -5,9 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "npm run build && node dist/index.js",
     "build": "tsc",
-    "backend": "tsc --watch & nodemon dist/index.js",
+    "backend": "nodemon",
     "frontend": "npm run dev --prefix ../client",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "seed": "node --loader ts-node/esm src/config/seed.ts"

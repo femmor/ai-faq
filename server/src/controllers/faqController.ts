@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import FAQ from '../models/FAQ.ts';
-import { generateEmbedding } from '../utils/embed.ts';
-import { cosineSimilarity } from '../utils/similarity.ts';
+import FAQ from '../models/FAQ.js';
+import { generateEmbedding } from '../utils/embed.js';
+import { cosineSimilarity } from '../utils/similarity.js';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { generateEmbedding } from "../utils/embed.ts";
-import { sampleFAQs } from "../utils/sample-faqs.ts";
-import FAQ from "../models/FAQ.ts";
+import { generateEmbedding } from "../utils/embed.js";
+import { sampleFAQs } from "../utils/sample-faqs.js";
+import FAQ from "../models/FAQ.js";
 
 dotenv.config();
 
