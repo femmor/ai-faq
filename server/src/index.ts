@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import faqRoutes from './routes/faq.js';
 import authRoutes from './routes/authRoutes.js';
+import { logInfo } from "./utils/logger.js";
 
 dotenv.config();
 connectDB();
@@ -18,6 +19,4 @@ app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 5005;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => logInfo("Server is running on port " + PORT));
