@@ -23,4 +23,7 @@ app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 5005;
 
-app.listen(PORT, () => logInfo("Server is running on port " + PORT));
+app.listen(PORT, () => {
+    console.log(`<======== Backend Server ========>`);
+    logInfo(`Server is running on port ${PORT}`);
+});

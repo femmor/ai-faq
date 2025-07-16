@@ -18,8 +18,6 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [token, setToken] = useState<string | null>(null);
     const [role, setRole] = useState<string | null>(null);
 
-
-
     const login = (newToken: string) => {
         setToken(newToken);
         localStorage.setItem("token", newToken);

@@ -3,10 +3,11 @@ import FAQ from '../models/FAQ.js';
 import { generateEmbedding } from '../utils/embed.js';
 import { cosineSimilarity } from '../utils/similarity.js';
 import OpenAI from 'openai';
+import asyncHandler from '../middleware/asyncHandler.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export const createFAQ = async (req: Request, res: Response) => {
+export const createFAQ = asyncHandler(async (req: Request, res: Response) => {
     const { question, answer } = req.body;
     if (!question || !answer) return res.status(400).json({ error: 'Question and answer required' });
 
@@ -19,9 +20,9 @@ export const createFAQ = async (req: Request, res: Response) => {
         console.error(err);
         res.status(500).json({ error: 'Failed to create FAQ' });
     }
-};
+});
 
-export const searchFAQ = async (req: Request, res: Response) => {
+export const searchFAQ = asyncHandler(async (req: Request, res: Response) => {
     const { question } = req.body;
     if (!question) return res.status(400).json({ error: 'Question required' });
 
@@ -51,4 +52,4 @@ export const searchFAQ = async (req: Request, res: Response) => {
         console.error(err);
         res.status(500).json({ error: 'Search failed' });
     }
-};
+});
