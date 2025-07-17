@@ -1,12 +1,14 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User.js';
 import { Request, Response } from 'express';
 import asyncHandler from '../middleware/asyncHandler.js';
 import generateToken from '../utils/generateToken.js';
 
-const JWT_SECRET = process.env.JWT_SECRET!
-
+/**
+ * @desc Register a new user
+ * @route POST /api/auth/register
+ * @access Public
+ * @returns {Object} User details and JWT token in cookie
+ */
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
@@ -35,6 +37,13 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     }
 })
 
+
+/**
+ * @desc Login user and return JWT token
+ * @route POST /api/auth/login
+ * @access Public
+ * @returns {Object} User details and JWT token in cookie
+ */
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -58,7 +67,25 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @desc Logout user by clearing the JWT token cookie
+ * @route POST /api/auth/logout
+ * @access Public
+ * @returns {Object} Success message
+ */
+const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+    res.cookie('token', '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        expires: new Date(0), // Set cookie to expire immediately
+    });
+
+    res.status(200).json({ message: 'Logged out successfully' });
+});
+
 export {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 }
