@@ -7,8 +7,8 @@ import type { Message } from "../types/Message";
 import TypingIndicator from "./TypingIndicator";
 import SuggestedQuestions from "./SuggestedQuestions";
 import ChatInput from "./ChatInput";
-import { getFAQAnswer } from "../api/getFAQAnswer";
 import { sampleFAQs } from "../utils/sampleFaqs";
+import { useGetFAQAnswerMutation } from "../state/slices/faqApiSlice";
 
 const sampleQuestions = sampleFAQs.slice(3).map(faq => faq.question);
 
@@ -21,6 +21,10 @@ const ChatInterface = () => {
     }]);
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
+
+    const [getFAQAnswer] = useGetFAQAnswerMutation();
+
+    console.log(getFAQAnswer)
 
     // Function to handle sending a message
     const handleSendMessage = (message: string) => {
@@ -45,7 +49,7 @@ const ChatInterface = () => {
             .then((data) => {
                 const aiMessage: Message = {
                     id: messages.length + 2,
-                    content: data.answer,
+                    content: data.answer || "Sorry, I couldn't find an answer to that.",
                     sender: "ai",
                     timestamp: new Date()
                 };

@@ -1,11 +1,10 @@
 import express from 'express';
 import { createFAQ, searchFAQ } from '../controllers/faqController.js';
-import { Request, Response, NextFunction } from 'express';
 import { protect, adminMiddleware } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
-router.post('/', protect, adminMiddleware, createFAQ);
+router.post('/', createFAQ);
 
-router.post('/search', protect, adminMiddleware, searchFAQ);
+router.post('/search', searchFAQ);
 
 export default router;

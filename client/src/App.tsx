@@ -12,7 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<ChatInterface />} />
         <Route path="/login" element={<Login />} />
-        <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
         </Route>
       </Routes>

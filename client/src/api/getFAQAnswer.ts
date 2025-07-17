@@ -1,16 +1,14 @@
-import axios from "axios";
+import { api } from "./axios";
+import type { FAQAnswerResponse } from "../types/faq";
 
-export interface FAQResponse {
-    answer: string;
-    sources: {
-        question: string;
-        answer: string;
-    }[];
-}
-
-export const getFAQAnswer = async (question: string): Promise<FAQResponse> => {
-    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/faq/search`, {
-        question
-    });
-    return response.data;
+export const getFAQAnswer = async (question: string): Promise<FAQAnswerResponse> => {
+    try {
+        const response = await api.post<FAQAnswerResponse>('/faq/search', {
+            question
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching FAQ answer:', error);
+        throw error;
+    }
 };

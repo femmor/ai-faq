@@ -12,7 +12,7 @@ declare global {
     }
 }
 
-const protect = asyncHandler(async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+const protect = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     let token: string | undefined
 
     if (req.cookies && req.cookies.token) {
